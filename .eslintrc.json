@@ -1,3 +1,22 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["unused-imports", "eslint-plugin-import-helpers"],
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "/^react/",
+          "module",
+          "/^components/",
+          "/^utils/",
+          "/^styles/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  }
 }

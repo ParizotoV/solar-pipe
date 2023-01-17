@@ -1,4 +1,5 @@
 import { Button as ButtonChakra, Text } from "@chakra-ui/react";
+
 import { ButtonProps } from ".";
 
 const Button: React.FC<ButtonProps> = ({ children, variant, ...rest }) => {
@@ -10,7 +11,8 @@ const Button: React.FC<ButtonProps> = ({ children, variant, ...rest }) => {
         position: 'relative',
         zIndex: 0,
         background: 'transparent',
-        width: '350px',
+        width: '100%',
+        maxWidth: '350px',
         '::before': {
           aspectRatio: 1,
           content: '""',
@@ -41,7 +43,8 @@ const Button: React.FC<ButtonProps> = ({ children, variant, ...rest }) => {
       button: {
         color: 'grey.900',
         bgImage: 'linear-gradient(90deg, #F27F3E, #B75377 , #6735A2)',
-        width: '350px',
+        width: '100%',
+        maxWidth: '350px',
       },
       text: {}
     }

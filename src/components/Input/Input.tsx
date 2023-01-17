@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Input as InputChakra, Text } from '@chakra-ui/react'
+
 import { InputProps } from '.'
 
 export const Input: React.FC<InputProps> = ({ children, label, ...rest }) => {

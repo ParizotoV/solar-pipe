@@ -1,15 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
+import { useToast } from "@chakra-ui/react";
 import { DataService } from "api/DataService";
 import { EmployeesParams } from "models/Employees";
 import Router from "next/router";
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
+
 import { AuthContextType } from "./AuthContext.interface";
 
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<EmployeesParams | null>(null)
+  const toast = useToast()
 
   const isAuthenticated = !!user
 
@@ -69,14 +72,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       maxAge: 60 * 60 * 24
     })
 
+    if (response.status === 201) {
+      toast({
+        title: 'Logado com sucesso.',
+        position: 'top-right',
+        status: 'success',
+        duration: 2000,
+        isClosable: false,
+      })
+
+      Router.push('/')
+    } else {
+      toast({
+        title: response?.message,
+        position: 'top-right',
+        status: 'error',
+        duration: 2000,
+        isClosable: false,
+      })
+    }
+
     return response
   }
 
   const signOut = () => {
+    Router.push('/sign-in')
     destroySession()
     setUser(null)
-
-    Router.push('/sign-in')
   }
 
   return (

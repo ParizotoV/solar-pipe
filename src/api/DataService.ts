@@ -1,24 +1,15 @@
-import axios from 'axios';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { getAPIClient } from './axios';
+import { DataServiceProps } from './DataService.interface';
 
-export type DataServiceProps = {
-  ctx?: any;
-  method?: 'POST' | 'GET' | 'DELETE' | 'PATCH';
-  data?: any;
-  url: string;
-  token?: any;
-};
-
-export const DataService = async({
-  ctx = null,
+export const DataService = async ({
+  context = null,
   method = 'POST',
   data,
   url,
-  token = null,
 }: DataServiceProps): Promise<any> => {
-  const client = getAPIClient(ctx);
+  const client = getAPIClient(context);
 
   try {
     const response = await client({
@@ -36,7 +27,7 @@ export const DataService = async({
     const errors = err as Error | AxiosError;
     if (axios.isAxiosError(errors) && errors.response) {
       return {
-        data: { },
+        data: {},
         error: true,
         message: errors.response.data?.message,
         statusCode: errors.response.data?.statusCode,

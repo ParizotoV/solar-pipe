@@ -1,18 +1,22 @@
-import { Box, Text } from '@chakra-ui/react'
-import Button from 'components/Button'
+import { useContext, useEffect } from 'react'
+
+import { Box, Text, useMediaQuery } from '@chakra-ui/react'
 import { AuthContext } from 'contexts/AuthContext'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { parseCookies } from 'nookies'
-import { useContext, useEffect } from 'react'
+
+import Button from 'components/Button'
 
 export default function Home() {
 	const { user, getEmployeeInformation, signOut } = useContext(AuthContext)
 
 	useEffect(() => {
-			getEmployeeInformation()
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		getEmployeeInformation()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	const query = useMediaQuery('(min-width: 688px)')
 
 	return (
 		<>
@@ -22,13 +26,15 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<Box bgColor="grey.200" width="100vw" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-				<Text color="grey.900" mb="44px" fontSize="5xl" fontWeight="bold">
-					Bem vindo, {user?.name}!
-				</Text>
-				<Button variant="primary" onClick={signOut}>
-					Sair
-				</Button>
+			<Box bgColor="grey.200" width="100vw" height="100vh" display="flex" justifyContent="center" alignItems="center">
+				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" padding="0 40px">
+					<Text color="grey.900" mb="44px" fontSize={!query[0] ? "1xl" : "5xl"} fontWeight="bold">
+						Bem vindo, {user?.name}!
+					</Text>
+					<Button variant="primary" onClick={signOut}>
+						Sair
+					</Button>
+				</Box>
 			</Box>
 		</>
 	)
